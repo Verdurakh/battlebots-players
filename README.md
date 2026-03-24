@@ -47,7 +47,7 @@ Every tick, `update(gameState)` receives:
 | Field | Type | Description |
 |-------|------|-------------|
 | `self` | object | Your bot's state (see below) |
-| `enemies` | array | All other alive bots (same shape as `self`) |
+| `enemies` | array | All other alive bots (same as `self` + `shielding`, `dashing`) |
 | `arena` | object | `{ radius, center: { x: 0, y: 0 } }` — radius shrinks over time! |
 | `plugins` | array | Your equipped plugins: `[{ id, description, cooldown, active }]` |
 | `pickups` | array | Crates on the field: `[{ id, pluginId, x, y, radius, description }]` |
@@ -68,6 +68,8 @@ Every tick, `update(gameState)` receives:
 | `maxHp` | Maximum hit points |
 | `stunTicks` | Ticks of stun remaining (can rotate but can't thrust) |
 | `alive` | Whether the bot is still in the match |
+| `shielding` | *(enemies only)* Whether the bot has an active shield |
+| `dashing` | *(enemies only)* Whether the bot is mid-dash |
 
 ### Action Object (what you return)
 
@@ -112,11 +114,11 @@ Activate a plugin by returning `usePlugin: 'plugin_id'` from `update()`. Always 
 
 | Plugin | Effect | Duration | Cooldown |
 |--------|--------|----------|----------|
-| `dash` | Fixed-speed charge forward. Plows through enemies. No steering during dash. | 0.5s | 3s |
-| `shield` | Full protection: blocks damage, reflects projectiles, bounces attackers with 2.5x force. | 1s | 5s |
-| `gun` | Fires a projectile in your facing direction (15 damage + knockback). | Instant | 2s |
+| `dash` | Fixed-speed charge forward. Plows through enemies. Takes bullet damage but ignores knockback/stun while dashing. | 0.5s | 3s |
+| `shield` | Full protection: blocks damage, reflects projectiles, bounces attackers with 1.8x force. | 1s | 5s |
+| `gun` | Fires a projectile in your facing direction (10 damage + knockback). | Instant | 2s |
 
-**Priority:** Shield beats Dash beats Normal. A dashing bot that hits a shielded bot gets bounced back hard.
+**Priority:** Shield beats Dash beats Gun. A dashing bot that hits a shielded bot gets bounced back hard. Dashing through bullets takes damage but keeps momentum.
 
 ## Combat Mechanics
 

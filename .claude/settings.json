@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const fs=require('fs');const c=fs.readFileSync('README.md','utf8');console.log(JSON.stringify({hookSpecificOutput:{hookEventName:'SessionStart',additionalContext:'GAME RULES (from README.md) — these are the AUTHORITATIVE source for all game mechanics, stats, plugins, and combat details. NEVER make up or guess game values. Always reference these rules.\\n\\n'+c}}))\"",
+            "timeout": 10,
+            "statusMessage": "Loading game rules..."
+          }
+        ]
+      }
+    ]
+  }
+}

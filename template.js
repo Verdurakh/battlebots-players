@@ -30,7 +30,7 @@ export default class MyBot {
    *
    * @param {object} gameState
    * @param {object} gameState.self - Your bot: { id, x, y, vx, vy, angle, radius, hp, maxHp, stunTicks, alive }
-   * @param {object[]} gameState.enemies - Other alive bots (same shape as self)
+   * @param {object[]} gameState.enemies - Other alive bots (same as self + shielding, dashing)
    * @param {object} gameState.arena - { radius, center: { x: 0, y: 0 } }
    * @param {object[]} gameState.plugins - Your plugins: [{ id, description, cooldown, active }]
    * @param {object[]} gameState.pickups - Arena pickups: [{ id, pluginId, x, y, radius, description }]
