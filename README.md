@@ -48,7 +48,7 @@ Every tick, `update(gameState)` receives:
 |-------|------|-------------|
 | `self` | object | Your bot's state (see below) |
 | `enemies` | array | All other alive bots (same as `self` + `shielding`, `dashing`) |
-| `arena` | object | `{ radius, center: { x: 0, y: 0 } }` — radius shrinks over time! |
+| `arena` | object | `{ radius, center: { x: 0, y: 0 }, obstacles }` — radius shrinks over time! |
 | `plugins` | array | Your equipped plugins: `[{ id, description, cooldown, active }]` |
 | `pickups` | array | Crates on the field: `[{ id, pluginId, x, y, radius, description }]` |
 | `projectiles` | array | Active bullets: `[{ id, x, y, vx, vy, radius, ownerId }]` |
@@ -143,6 +143,17 @@ Activate a plugin by returning `usePlugin: 'plugin_id'` from `update()`. Always 
 | Artillery | `artillery` | Calls a strike on nearest enemy's position. 2s warning, then explosion (50 damage, massive knockback). |
 | Bullet Burst | `bulletburst` | Fires 3 projectiles at every enemy from your position. |
 | Shield | `shieldcrate` | Grants a 7-second personal shield. |
+
+## Obstacles
+
+The arena contains **4 circular pillars** arranged in a square pattern. Bots and projectiles collide with them — use them for cover or to cut off enemies.
+
+| Property | Value |
+|----------|-------|
+| Positions | `(-90, -90)`, `(90, -90)`, `(-90, 90)`, `(90, 90)` |
+| Radius | 15 each |
+
+Obstacles are available in `gameState.arena.obstacles` as an array of `{ type, x, y, radius }`.
 
 ## Custom Drawing (Optional)
 
