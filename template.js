@@ -24,7 +24,7 @@ export default class MyBot {
   // REQUIRED: a stable id unique to your bot. Set this ONCE at the start of the project
   // and never change it — scores across rounds/sessions are tracked by this id.
   // Convention: "team-botname" (lowercase, kebab-case). Example: 'team-alpha-ironclad'.
-  static botId = 'CHANGE-ME-unique-stable-id';
+  static botId = 'team-hackerbot-8d4f2a6e4565656';
 
   // Display name shown in the UI. Safe to rename between rounds — scores stay linked via botId.
   static botName = 'Template Bot';
