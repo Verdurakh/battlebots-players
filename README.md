@@ -17,6 +17,8 @@ The arena shrinks over time. Matches last up to 3 minutes. Crate pickups spawn p
 3. Implement the `update(gameState)` method — this is your bot's brain
 4. Load your bot file in the game UI using the "Load Bot" button
 
+> **Lock your name before round 1.** Scores are tracked across rounds by `botName`. Once the first match has begun, do **not** change it — if you rename your bot mid-tournament it'll be treated as a new entry and you'll lose your running score. Pick a name you're happy with before the first fight.
+
 ## Writing Your Bot
 
 Your bot is a class with an `update` method that receives the full game state and returns an action:
