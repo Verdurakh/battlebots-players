@@ -6,6 +6,8 @@ Write a JavaScript bot that fights in a sumo-style arena. Push your opponents of
 
 Your bot is a circle on a circular platform. Each tick (60 times per second), the engine calls your bot's `update()` function. You decide how to rotate, thrust, and when to use plugins. If you leave the arena boundary, you're eliminated.
 
+**HP is not lives.** You are *only* eliminated by leaving the arena. HP is a resilience meter — at full HP you shrug off hits, but as it drops you get shoved further and stunned longer with each hit, making you easy to ring out. Think Smash Bros. damage %, not traditional hit points.
+
 The arena shrinks over time. Matches last up to 3 minutes. Crate pickups spawn periodically with powerful effects. It gets chaotic.
 
 ## Getting Started
@@ -89,7 +91,7 @@ export const stats = { hp: 4, mass: 3, speed: 5, thrust: 4, turnRate: 4, pluginP
 
 | Stat | Base (0 pts) | Per point | What it does |
 |------|-------------|-----------|-------------|
-| `hp` | 40 | +15 | Hit points — low HP = much easier to knock out |
+| `hp` | 40 | +15 | Knockback resistance. You don't die at 0 — but low HP means huge knockback and long stuns, making you trivial to ring out. |
 | `mass` | 0.5 | +0.15 | Heavier = harder to push. Does NOT affect your own movement. |
 | `speed` | 1.0 | +0.25 | Max movement speed |
 | `thrust` | 0.1 | +0.05 | Acceleration force |
@@ -122,8 +124,9 @@ Activate a plugin by returning `usePlugin: 'plugin_id'` from `update()`. Always 
 
 ## Combat Mechanics
 
+- **HP is resilience, not lives.** You're only eliminated by leaving the arena. HP controls how much knockback and stun you take when hit — at full HP you barely move, at 0 HP a light tap sends you flying. A 0-HP bot is still alive and fighting; it's just one good shove from elimination.
 - **Collision damage** scales with impact speed and attacker mass. Rear hits deal 1.5x, head-on takes 0.5x.
-- **Low HP = danger.** As HP drops, knockback increases exponentially and stun lasts longer. At 0 HP you're extremely easy to ring out.
+- **Knockback scales with missing HP.** As HP drops, the knockback you take increases exponentially and stun lasts longer. Staying at high HP is a defensive stat as much as a survival one.
 - **Hitstun:** When hit, you can rotate but can't thrust. Duration scales with remaining HP.
 - **Projectiles** are visible in `gameState.projectiles` — you can dodge them. Shields reflect them back.
 
@@ -131,8 +134,8 @@ Activate a plugin by returning `usePlugin: 'plugin_id'` from `update()`. Always 
 
 | Event | When | What happens |
 |-------|------|-------------|
-| Crate pickups | From 15s, every 10-15s | Move over a crate to collect it. 4 types with different effects. |
-| Arena shrink | From 30s | Arena shrinks at 3.5 units/sec down to 30% of original size. |
+| Crate pickups | From 12s, every 7-11s | Move over a crate to collect it. 4 types with different effects. |
+| Arena shrink | From 25s | Arena shrinks at 3.85 units/sec down to 30% of original size. |
 | Match timeout | 3 minutes | Highest HP wins. Equal HP = draw. |
 
 ### Crate Types
