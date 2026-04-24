@@ -13,11 +13,12 @@ The arena shrinks over time. Matches last up to 3 minutes. Crate pickups spawn p
 ## Getting Started
 
 1. Copy `template.js` and rename it (e.g. `my_bot.js`)
-2. Change `static botName` to your bot's name
-3. Implement the `update(gameState)` method — this is your bot's brain
-4. Load your bot file in the game UI using the "Load Bot" button
+2. Set `static botId` to a stable, unique id for your bot (convention: `team-botname`, lowercase kebab-case)
+3. Set `static botName` to your bot's display name
+4. Implement the `update(gameState)` method — this is your bot's brain
+5. Load your bot file in the game UI using the "Load Bot" button
 
-> **Lock your name before round 1.** Scores are tracked across rounds by `botName`. Once the first match has begun, do **not** change it — if you rename your bot mid-tournament it'll be treated as a new entry and you'll lose your running score. Pick a name you're happy with before the first fight.
+> **Lock your `botId` before round 1.** Scores across rounds and sessions are tracked by `botId`, **not** by `botName`. Pick your `botId` once and never change it — if you do, the engine treats your bot as a new entry and you lose your running score. `botName` is just the display label and is safe to rename between rounds.
 
 ## Writing Your Bot
 
@@ -28,7 +29,8 @@ export const plugins = ['dash'];
 export const stats = { hp: 4, mass: 3, speed: 5, thrust: 5, turnRate: 4, pluginPower: 3 };
 
 export default class MyBot {
-  static botName = 'My Bot';
+  static botId = 'team-mybot-7f3a9c1e';   // stable unique id — set ONCE, never change
+  static botName = 'My Bot';              // display name — safe to rename between rounds
 
   update(gameState) {
     const { self, enemies, arena, plugins, tick } = gameState;
@@ -166,6 +168,7 @@ Give your bot a custom appearance:
 
 ```js
 export default class MyBot {
+  static botId = 'team-coolbot-2b8d4e6f';
   static botName = 'Cool Bot';
 
   // Static avatar — drawn once, used in sidebar and in-game
